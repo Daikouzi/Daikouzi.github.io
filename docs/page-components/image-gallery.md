@@ -11,7 +11,7 @@ toc: true
 
 You can display a gallery of images on a page. It allows you to show a small version and click on it to enlarge the image. 
 
-[View the image gallery example page](/bulma-clean-theme/gallery/)
+[View the image gallery example page](/gallery/)
 
 ## Create an image gallery data file
 

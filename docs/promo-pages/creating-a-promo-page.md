@@ -11,7 +11,7 @@ show_sidebar: false
 
 A promo page is designed as a standalone landing page to promote something, such as a new product. The example promo page has been designed to promote a book, but it can be used for any product as it is very customisable. 
 
-[View promo page demo](/bulma-clean-theme/promo-page/)
+[View promo page demo](/promo-page/)
 
 ## Creating a promo page
 
@@ -66,7 +66,7 @@ hero_image_ratio: is-4by5
 
 ## Reviews
 
-Reviews work the same as for [product reviews](/bulma-clean-theme/docs/products/product-reviews/). Set the `product_code` in the promo page's front matter and it will then display the reviews for the product. 
+Reviews work the same as for [product reviews](/docs/products/product-reviews/). Set the `product_code` in the promo page's front matter and it will then display the reviews for the product. 
 
 ```yaml
 title: My promo page title

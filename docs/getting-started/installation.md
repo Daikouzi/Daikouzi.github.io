@@ -50,4 +50,4 @@ remote_theme: chrisrhymes/bulma-clean-theme@v0.14.0
 
 When using v1.x of this theme, use GitHub actions to deploy your site to GitHub pages.
 
-Please read the [upgrade guide](/bulma-clean-theme/docs/getting-started/upgrading-to-v1/) for more information.
+Please read the [upgrade guide](/docs/getting-started/upgrading-to-v1/) for more information.

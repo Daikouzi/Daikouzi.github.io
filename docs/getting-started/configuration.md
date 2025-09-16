@@ -30,7 +30,7 @@ To enable Google Analytics add `google_analytics: UA-xxxxxxxx` to your `_config.
 google_analytics: UA-xxxxxxxx
 ```
 
-The Google Analytics implementation uses Google Analytics v4 and consent mode. Please see the [cookie banner](/bulma-clean-theme/docs/page-components/cookie-banner/) for more information.
+The Google Analytics implementation uses Google Analytics v4 and consent mode. Please see the [cookie banner](/docs/page-components/cookie-banner/) for more information.
 
 ## GitHub Sponsor
 
@@ -40,7 +40,7 @@ If you have a GitHub sponsors account set up, you can add your username to `gh_s
 gh_sponsor: chrisrhymes
 ```
 
-Further information on Sponsors feature available in the [Sponsors docs page](/bulma-clean-theme/docs/sponsors/).
+Further information on Sponsors feature available in the [Sponsors docs page](/docs/sponsors/).
 
 ## Disqus
 

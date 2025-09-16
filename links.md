@@ -45,5 +45,5 @@ link_sections:
 
 This is some page content that can be used to add additional details to your links page. 
 
-- It can be markdown and contain links, such as [how to create a links page](/bulma-clean-theme/docs/links-pages/creating-a-links-page/)
+- It can be markdown and contain links, such as [how to create a links page](/docs/links-pages/creating-a-links-page/)
 - Or bullet points, etc.
