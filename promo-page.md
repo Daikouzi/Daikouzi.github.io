@@ -27,4 +27,4 @@ Nunc in nisl at purus mollis vulputate. Sed tincidunt tincidunt risus eget iacul
 
 ### Creating a promo page
 
-See the documentation for [creating a promo page](/bulma-clean-theme/docs/promo-pages/creating-a-promo-page).
+See the documentation for [creating a promo page](/docs/promo-pages/creating-a-promo-page).

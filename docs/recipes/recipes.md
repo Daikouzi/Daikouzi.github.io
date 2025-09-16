@@ -26,8 +26,8 @@ subtitle: Tastes great and easy to cook
 author: CS Rhymes
 date: 2021-03-02
 show_sidebar: false
-image: /bulma-clan-theme/img/recipe-example.jpg
-hero_image: /bulma-clean-theme/img/recipe-example.jpg
+image: /img/recipe-example.jpg
+hero_image: /img/recipe-example.jpg
 ingredients:
     - 1tsp vegetable oil
     - 2 Carrots, finely diced
@@ -57,4 +57,4 @@ recipe_cuisine: Italian
 calories: 500 calories
 ```
 
-[View example Recipe page](/bulma-clean-theme/example-recipe)
+[View example Recipe page](/example-recipe)

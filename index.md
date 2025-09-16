@@ -30,20 +30,20 @@ The ruby gem is available on the Ruby Gems website at the following location:
 
 ## Documentation
 
-For full instructions, please see the [Documentation](/bulma-clean-theme/docs/)
+For full instructions, please see the [Documentation]({{ '/docs/' | relative_url }})
 
 ## Page Layouts
 
 This demo site showcases the available page layout options. 
 
-* [Landing Page With Callouts](/bulma-clean-theme/landing/)
-* [Promo Page](/bulma-clean-theme/promo-page/)
-* [Links Page](/bulma-clean-theme/links/)
-* [Sponsors Page](/bulma-clean-theme/sponsors/)
-* [Image Gallery](/bulma-clean-theme/gallery/)
-* [Recipe Page](/bulma-clean-theme/example-recipe/)
-* [Blog](/bulma-clean-theme/blog/)
-* [Post](/bulma-clean-theme/2021/10/30/creating-a-post-series/)
+* [Landing Page With Callouts]({{ '/landing/' | relative_url }})
+* [Promo Page]({{ '/promo-page/' | relative_url }})
+* [Links Page]({{ '/links/' | relative_url }})
+* [Sponsors Page]({{ '/sponsors/' | relative_url }})
+* [Image Gallery]({{ '/gallery/' | relative_url }})
+* [Recipe Page]({{ '/example-recipe/' | relative_url }})
+* [Blog]({{ '/blog/' | relative_url }})
+* [Post]({{ '/2021/10/30/creating-a-post-series/' | relative_url }})
 
 ## Page components
 

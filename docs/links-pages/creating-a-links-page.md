@@ -11,7 +11,7 @@ show_sidebar: false
 
 A links page is designed to provide an overview of your most important links. It is ideal to link to from your social media page where you can only create one link. 
 
-[View the demo links page](/bulma-clean-theme/links/)
+[View the demo links page](/links/)
 
 ## Creating the page
 
