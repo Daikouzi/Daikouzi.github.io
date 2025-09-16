@@ -5,23 +5,20 @@ on:
 
 jobs:
   build:
+    name: Build & Test
     runs-on: ubuntu-latest
-    name: script/cibuild
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
           bundler-cache: true
-          
+
+      - name: Make bootstrap script executable
+        run: chmod +x script/bootstrap
+
       - name: build
         run: script/bootstrap
 
       - name: test
         run: script/cibuild
-
-      - name: Make bootstrap script executable
-        run: chmod +x script/bootstrap
-
-      - name: Run bootstrap script
-        run: script/bootstrap
