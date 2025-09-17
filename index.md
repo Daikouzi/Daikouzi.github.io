@@ -2,9 +2,11 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+이런 텍스트를 할수 있다. **볼드**, _이태릭_, or ~~뭐야?~~.
 
 [Link to another page](./another-page.html).
+
+안녕하세요. 반갑습니다.
 
 There should be whitespace between paragraphs.
 
@@ -94,11 +96,11 @@ end
 
 ### Small image
 
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
+![Octocat](https://pvbi.ddns.net/assets/svg/logos/logo.png)
 
 ### Large image
 
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
+![Branching](https://pvbi.ddns.net/assets/vendor/flag-icon-css/flags/1x1/kr.svg)
 
 
 ### Definition lists can be used with HTML syntax.
