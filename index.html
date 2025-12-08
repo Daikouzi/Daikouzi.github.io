@@ -3,80 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <title>메뉴 조회</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      padding: 20px;
-    }
-    .form-row {
-      margin-bottom: 10px;
-    }
-    label {
-      display: inline-block;
-      width: 70px;
-    }
-    select, input[type="date"] {
-      padding: 4px 8px;
-      min-width: 160px;
-    }
-    button {
-      padding: 6px 12px;
-      cursor: pointer;
-    }
-    #output {
-      margin-top: 20px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      background: #f9f9f9;
-      white-space: pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 </head>
-<body>
-  <!-- 검색 폼 영역 -->
-  <div>
-    <div class="form-row">
-      <label for="siteId">사업장</label>
-      <select id="siteId">
-        <!-- 실제 사업장 코드/이름에 맞게 수정하면 됩니다 -->
+<body class="bg-light">
+  <div class="container mt-4">
+    <h1 class="mb-4">메뉴 조회</h1>
 
-        <option value="2" selected>Seojin System</option>
-        <option value="3">TEXON</option>
-        <option value="4">4번 사업장</option>
-        <option value="5">5번 사업장</option>
-       <option value="6">6번 사업장</option>
-       <option value="7">7번 사업장</option>
-       <option value="8">Ho Jeong TS</option>
-       <option value="9">KDA</option>
-        <option value="10">10번 사업장</option>
-         <option value="11">CHITWING</option>
-         <option value="12">HS TECH</option>
-      </select>
+    <!-- 검색 폼 영역 -->
+    <div class="card p-4">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="siteId" class="form-label">사업장</label>
+          <select id="siteId" class="form-select">
+            <option value="2" selected>Seojin System</option>
+            <option value="3">TEXON</option>
+            <option value="4">4번 사업장</option>
+            <option value="5">5번 사업장</option>
+            <option value="6">6번 사업장</option>
+            <option value="7">7번 사업장</option>
+            <option value="8">Ho Jeong TS</option>
+            <option value="9">KDA</option>
+            <option value="10">10번 사업장</option>
+            <option value="11">CHITWING</option>
+            <option value="12">HS TECH</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="menuDate" class="form-label">날짜</label>
+          <input type="date" id="menuDate" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+          <label for="categoryId" class="form-label">식사</label>
+          <select id="categoryId" class="form-select">
+            <option value="2">조식</option>
+            <option value="3" selected>중식</option>
+            <option value="4">석식</option>
+            <option value="5">야식</option>
+          </select>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-primary w-100" onclick="loadMenu()">
+            검색
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="form-row">
-      <label for="menuDate">날짜</label>
-      <input type="date" id="menuDate" />
-    </div>
-
-    <div class="form-row">
-      <label for="categoryId">식사</label>
-      <select id="categoryId">
-        <!-- 실제 categoryId 매핑에 맞게 수정 -->
-        <option value="2">조식</option>
-        <option value="3" selected>중식</option>
-        <option value="4">석식</option>
-        <option value="5">야식</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <button onclick="loadMenu()">검색</button>
-    </div>
-  </div>
-
-  <!-- 결과 출력 영역 -->
-  <pre id="output"></pre>
+    <!-- 결과 출력 영역 -->
+    <div id="output" class="mt-4"></div>
 
   <script>
     // 페이지 로드 시 날짜를 오늘로 기본 설정
@@ -99,9 +76,16 @@
       }
 
       const url = `https://pvbi.ddns.net/api/korean-menu?date=${date}&siteId=${siteId}&categoryId=${categoryId}`;
-
       const outputEl = document.getElementById("output");
-      outputEl.textContent = "조회 중...";
+
+      // Display a spinner while loading
+      outputEl.innerHTML = `
+        <div class="d-flex justify-content-center mt-5">
+          <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      `;
 
       fetch(url, {
         method: "GET",
@@ -116,11 +100,42 @@
         return res.json();
       })
       .then(data => {
-        // 일단은 raw JSON 출력
-        outputEl.textContent = JSON.stringify(data, null, 2);
+        outputEl.innerHTML = ""; // Clear the spinner
+
+        if (data && data.data && data.data.length > 0) {
+          const menuItems = data.data;
+          const cardsHtml = menuItems
+            .map(item => {
+              // Replace newline characters with <br> for proper HTML rendering
+              const koreanMenu = item.koreanMenu ? item.koreanMenu.replace(/\n/g, '<br>') : '정보 없음';
+              const vietnameseMenu = item.vietnameseMenu ? item.vietnameseMenu.replace(/\n/g, '<br>') : '정보 없음';
+              const corner = item.corner || '일반';
+
+              return `
+                <div class="col">
+                  <div class="card h-100">
+                    <div class="card-header">${corner}</div>
+                    <div class="card-body">
+                      <h5 class="card-title">🇰🇷 한국어 메뉴</h5>
+                      <p class="card-text">${koreanMenu}</p>
+                      <hr>
+                      <h5 class="card-title">🇻🇳 베트남어 메뉴</h5>
+                      <p class="card-text">${vietnameseMenu}</p>
+                    </div>
+                  </div>
+                </div>
+              `;
+            })
+            .join("");
+
+          // Use a responsive grid to display cards
+          outputEl.innerHTML = `<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">${cardsHtml}</div>`;
+        } else {
+          outputEl.innerHTML = "해당 날짜의 메뉴 정보가 없습니다.";
+        }
       })
       .catch(err => {
-        outputEl.textContent = "에러: " + err;
+        outputEl.innerHTML = `<div class="alert alert-danger" role="alert">에러가 발생했습니다: ${err.message}</div>`;
       });
     }
   </script>
