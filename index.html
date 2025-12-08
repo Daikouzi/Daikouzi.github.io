@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>메뉴 조회</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px;
+    }
+    .form-row {
+      margin-bottom: 10px;
+    }
+    label {
+      display: inline-block;
+      width: 70px;
+    }
+    select, input[type="date"] {
+      padding: 4px 8px;
+      min-width: 160px;
+    }
+    button {
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #output {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: #f9f9f9;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <!-- 검색 폼 영역 -->
+  <div>
+    <div class="form-row">
+      <label for="siteId">사업장</label>
+      <select id="siteId">
+        <!-- 실제 사업장 코드/이름에 맞게 수정하면 됩니다 -->
+
+        <option value="2" selected>Seojin System</option>
+        <option value="3">TEXON</option>
+        <option value="4">4번 사업장</option>
+        <option value="5">5번 사업장</option>
+       <option value="6">6번 사업장</option>
+       <option value="7">7번 사업장</option>
+       <option value="8">Ho Jeong TS</option>
+       <option value="9">KDA</option>
+        <option value="10">10번 사업장</option>
+         <option value="11">CHITWING</option>
+         <option value="12">HS TECH</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="menuDate">날짜</label>
+      <input type="date" id="menuDate" />
+    </div>
+
+    <div class="form-row">
+      <label for="categoryId">식사</label>
+      <select id="categoryId">
+        <!-- 실제 categoryId 매핑에 맞게 수정 -->
+        <option value="2">조식</option>
+        <option value="3" selected>중식</option>
+        <option value="4">석식</option>
+        <option value="5">야식</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <button onclick="loadMenu()">검색</button>
+    </div>
+  </div>
+
+  <!-- 결과 출력 영역 -->
+  <pre id="output"></pre>
+
+  <script>
+    // 페이지 로드 시 날짜를 오늘로 기본 설정
+    document.addEventListener("DOMContentLoaded", () => {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      document.getElementById("menuDate").value = `${yyyy}-${mm}-${dd}`;
+    });
+
+    function loadMenu() {
+      const siteId = document.getElementById("siteId").value;
+      const categoryId = document.getElementById("categoryId").value;
+      const date = document.getElementById("menuDate").value;
+
+      if (!date) {
+        alert("날짜를 선택하세요.");
+        return;
+      }
+
+      const url = `https://pvbi.ddns.net/api/korean-menu?date=${date}&siteId=${siteId}&categoryId=${categoryId}`;
+
+      const outputEl = document.getElementById("output");
+      outputEl.textContent = "조회 중...";
+
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "X-API-KEY": "l0vLjDuIxAAUjHd7"
+        }
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        // 일단은 raw JSON 출력
+        outputEl.textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        outputEl.textContent = "에러: " + err;
+      });
+    }
+  </script>
+</body>
+</html>
