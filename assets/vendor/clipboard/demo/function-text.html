@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>function-text</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <!-- 1. Define some markup -->
-    <button class="btn">Copy</button>
-
-    <!-- 2. Include library -->
-    <script src="../dist/clipboard.min.js"></script>
-
-    <!-- 3. Instantiate clipboard -->
-    <script>
+<head>
+<meta charset="UTF-8" />
+<title>function-text</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+	<!-----------------------------------------[ 1. Define some markup ]----------------------------------------->
+	<button class="btn">Copy</button>
+	<!-----------------------------------------[ 2. Include library ]----------------------------------------->
+	<script src="../dist/clipboard.min.js"></script>
+	<!-----------------------------------------[ 3. Instantiate clipboard ]----------------------------------------->
+	<script>
       var clipboard = new ClipboardJS('.btn', {
         text: function () {
           return 'to be or not to be';
@@ -32,5 +30,5 @@
         console.info('Trigger:', e.trigger);
       });
     </script>
-  </body>
+</body>
 </html>

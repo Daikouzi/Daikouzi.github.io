@@ -1,5 +1,4 @@
-import { migratePatchFunc, migrateWarn } from "../main.js";
-import "../disablePatches.js";
+import { migrateWarn } from "../main.js";
 
 // Support jQuery slim which excludes the effects module
 if ( jQuery.fx ) {
@@ -10,10 +9,9 @@ var intervalValue, intervalMsg,
 		return pct;
 	};
 
-migratePatchFunc( jQuery.Tween.prototype, "run", function( ) {
+jQuery.Tween.prototype.run = function( ) {
 	if ( jQuery.easing[ this.easing ].length > 1 ) {
 		migrateWarn(
-			"easing-one-arg",
 			"'jQuery.easing." + this.easing.toString() + "' should use only one argument"
 		);
 
@@ -21,9 +19,9 @@ migratePatchFunc( jQuery.Tween.prototype, "run", function( ) {
 	}
 
 	oldTweenRun.apply( this, arguments );
-}, "easing-one-arg" );
+};
 
-intervalValue = jQuery.fx.interval;
+intervalValue = jQuery.fx.interval || 13;
 intervalMsg = "jQuery.fx.interval is deprecated";
 
 // Support: IE9, Android <=4.4
@@ -35,17 +33,12 @@ if ( window.requestAnimationFrame ) {
 		enumerable: true,
 		get: function() {
 			if ( !window.document.hidden ) {
-				migrateWarn( "fx-interval", intervalMsg );
+				migrateWarn( intervalMsg );
 			}
-
-			// Only fallback to the default if patch is enabled
-			if ( !jQuery.migrateIsPatchEnabled( "fx-interval" ) ) {
-				return intervalValue;
-			}
-			return intervalValue === undefined ? 13 : intervalValue;
+			return intervalValue;
 		},
 		set: function( newValue ) {
-			migrateWarn( "fx-interval", intervalMsg );
+			migrateWarn( intervalMsg );
 			intervalValue = newValue;
 		}
 	} );

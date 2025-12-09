@@ -1,5 +1,5 @@
 import { jQueryVersionSince } from "../compareVersions.js";
-import { migrateWarn, migratePatchAndWarnFunc, migratePatchFunc } from "../main.js";
+import { migrateWarn, migrateWarnFunc } from "../main.js";
 
 // Support jQuery slim which excludes the ajax module
 if ( jQuery.ajax ) {
@@ -7,21 +7,21 @@ if ( jQuery.ajax ) {
 var oldAjax = jQuery.ajax,
 	rjsonp = /(=)\?(?=&|$)|\?\?/;
 
-migratePatchFunc( jQuery, "ajax", function() {
+jQuery.ajax = function( ) {
 	var jQXHR = oldAjax.apply( this, arguments );
 
 	// Be sure we got a jQXHR (e.g., not sync)
 	if ( jQXHR.promise ) {
-		migratePatchAndWarnFunc( jQXHR, "success", jQXHR.done, "jqXHR-methods",
+		migrateWarnFunc( jQXHR, "success", jQXHR.done,
 			"jQXHR.success is deprecated and removed" );
-		migratePatchAndWarnFunc( jQXHR, "error", jQXHR.fail, "jqXHR-methods",
+		migrateWarnFunc( jQXHR, "error", jQXHR.fail,
 			"jQXHR.error is deprecated and removed" );
-		migratePatchAndWarnFunc( jQXHR, "complete", jQXHR.always, "jqXHR-methods",
+		migrateWarnFunc( jQXHR, "complete", jQXHR.always,
 			"jQXHR.complete is deprecated and removed" );
 	}
 
 	return jQXHR;
-}, "jqXHR-methods" );
+};
 
 // Only trigger the logic in jQuery <4 as the JSON-to-JSONP auto-promotion
 // behavior is gone in jQuery 4.0 and as it has security implications, we don't
@@ -40,7 +40,7 @@ if ( !jQueryVersionSince( "4.0.0" ) ) {
 					.indexOf( "application/x-www-form-urlencoded" ) === 0 &&
 				rjsonp.test( s.data )
 		) ) {
-			migrateWarn( "jsonp-promotion", "JSON-to-JSONP auto-promotion is deprecated" );
+			migrateWarn( "JSON-to-JSONP auto-promotion is deprecated" );
 		}
 	} );
 }

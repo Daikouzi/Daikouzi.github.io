@@ -1,6 +1,6 @@
 /* Original */
-thead.sticky-header-original-thead tr th,
-thead.sticky-header-original-thead tr td {
+thead.sticky-header-original-thead tr th, thead.sticky-header-original-thead tr td
+	{
 	border-top: none;
 	border-bottom: none;
 	padding-top: 0;

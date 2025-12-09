@@ -1,4 +1,8 @@
-import { migratePatchAndWarnFunc } from "../main.js";
+import { migrateWarn } from "../main.js";
 
-migratePatchAndWarnFunc( jQuery.fn, "andSelf", jQuery.fn.addBack, "andSelf",
-	"jQuery.fn.andSelf() is deprecated and removed, use jQuery.fn.addBack()" );
+var oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack;
+
+jQuery.fn.andSelf = function() {
+	migrateWarn( "jQuery.fn.andSelf() is deprecated and removed, use jQuery.fn.addBack()" );
+	return oldSelf.apply( this, arguments );
+};

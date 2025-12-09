@@ -1,11 +1,5 @@
 import { jQueryVersionSince } from "../compareVersions.js";
-import {
-	migratePatchFunc,
-	migrateWarn,
-	migratePatchAndWarnFunc,
-	migrateWarnProp
-} from "../main.js";
-import "../disablePatches.js";
+import { migrateWarn, migrateWarnFunc, migrateWarnProp } from "../main.js";
 
 var findProp,
 	class2type = {},
@@ -19,27 +13,21 @@ var findProp,
 	// Make sure we trim BOM and NBSP
 	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
-migratePatchFunc( jQuery.fn, "init", function( arg1 ) {
+jQuery.fn.init = function( arg1 ) {
 	var args = Array.prototype.slice.call( arguments );
 
-	if ( jQuery.migrateIsPatchEnabled( "selector-empty-id" ) &&
-		typeof arg1 === "string" && arg1 === "#" ) {
+	if ( typeof arg1 === "string" && arg1 === "#" ) {
 
-		// JQuery( "#" ) is a bogus ID selector, but it returned an empty set
-		// before jQuery 3.0
-		migrateWarn( "selector-empty-id", "jQuery( '#' ) is not a valid selector" );
+		// JQuery( "#" ) is a bogus ID selector, but it returned an empty set before jQuery 3.0
+		migrateWarn( "jQuery( '#' ) is not a valid selector" );
 		args[ 0 ] = [];
 	}
 
 	return oldInit.apply( this, args );
-}, "selector-empty-id" );
-
-// This is already done in Core but the above patch will lose this assignment
-// so we need to redo it. It doesn't matter whether the patch is enabled or not
-// as the method is always going to be a Migrate-created wrapper.
+};
 jQuery.fn.init.prototype = jQuery.fn;
 
-migratePatchFunc( jQuery, "find", function( selector ) {
+jQuery.find = function( selector ) {
 	var args = Array.prototype.slice.call( arguments );
 
 	// Support: PhantomJS 1.x
@@ -61,18 +49,16 @@ migratePatchFunc( jQuery, "find", function( selector ) {
 			// Note that there may be false alarms if selector uses jQuery extensions
 			try {
 				window.document.querySelector( selector );
-				migrateWarn( "selector-hash",
-					"Attribute selector with '#' must be quoted: " + args[ 0 ] );
+				migrateWarn( "Attribute selector with '#' must be quoted: " + args[ 0 ] );
 				args[ 0 ] = selector;
 			} catch ( err2 ) {
-				migrateWarn( "selector-hash",
-					"Attribute selector with '#' was not fixed: " + args[ 0 ] );
+				migrateWarn( "Attribute selector with '#' was not fixed: " + args[ 0 ] );
 			}
 		}
 	}
 
 	return oldFind.apply( this, args );
-}, "selector-hash" );
+};
 
 // Copy properties attached to original jQuery.find method (e.g. .attr, .isXML)
 for ( findProp in oldFind ) {
@@ -82,53 +68,53 @@ for ( findProp in oldFind ) {
 }
 
 // The number of elements contained in the matched element set
-migratePatchAndWarnFunc( jQuery.fn, "size", function() {
+migrateWarnFunc( jQuery.fn, "size", function() {
 	return this.length;
-}, "size",
+},
 "jQuery.fn.size() is deprecated and removed; use the .length property" );
 
-migratePatchAndWarnFunc( jQuery, "parseJSON", function() {
+migrateWarnFunc( jQuery, "parseJSON", function() {
 	return JSON.parse.apply( null, arguments );
-}, "parseJSON",
+},
 "jQuery.parseJSON is deprecated; use JSON.parse" );
 
-migratePatchAndWarnFunc( jQuery, "holdReady", jQuery.holdReady,
-	"holdReady", "jQuery.holdReady is deprecated" );
+migrateWarnFunc( jQuery, "holdReady", jQuery.holdReady,
+	"jQuery.holdReady is deprecated" );
 
-migratePatchAndWarnFunc( jQuery, "unique", jQuery.uniqueSort,
-	"unique", "jQuery.unique is deprecated; use jQuery.uniqueSort" );
+migrateWarnFunc( jQuery, "unique", jQuery.uniqueSort,
+	"jQuery.unique is deprecated; use jQuery.uniqueSort" );
 
 // Now jQuery.expr.pseudos is the standard incantation
-migrateWarnProp( jQuery.expr, "filters", jQuery.expr.pseudos, "expr-pre-pseudos",
+migrateWarnProp( jQuery.expr, "filters", jQuery.expr.pseudos,
 	"jQuery.expr.filters is deprecated; use jQuery.expr.pseudos" );
-migrateWarnProp( jQuery.expr, ":", jQuery.expr.pseudos, "expr-pre-pseudos",
+migrateWarnProp( jQuery.expr, ":", jQuery.expr.pseudos,
 	"jQuery.expr[':'] is deprecated; use jQuery.expr.pseudos" );
 
 // Prior to jQuery 3.1.1 there were internal refs so we don't warn there
 if ( jQueryVersionSince( "3.1.1" ) ) {
-	migratePatchAndWarnFunc( jQuery, "trim", function( text ) {
+	migrateWarnFunc( jQuery, "trim", function( text ) {
 		return text == null ?
 			"" :
 			( text + "" ).replace( rtrim, "" );
-	}, "trim",
+	},
 	"jQuery.trim is deprecated; use String.prototype.trim" );
 }
 
 // Prior to jQuery 3.2 there were internal refs so we don't warn there
 if ( jQueryVersionSince( "3.2.0" ) ) {
-	migratePatchAndWarnFunc( jQuery, "nodeName", function( elem, name ) {
+	migrateWarnFunc( jQuery, "nodeName", function( elem, name ) {
 		return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
-	}, "nodeName",
+	},
 	"jQuery.nodeName is deprecated" );
 
-	migratePatchAndWarnFunc( jQuery, "isArray", Array.isArray, "isArray",
+	migrateWarnFunc( jQuery, "isArray", Array.isArray,
 		"jQuery.isArray is deprecated; use Array.isArray"
 	);
 }
 
 if ( jQueryVersionSince( "3.3.0" ) ) {
 
-	migratePatchAndWarnFunc( jQuery, "isNumeric", function( obj ) {
+	migrateWarnFunc( jQuery, "isNumeric", function( obj ) {
 
 			// As of jQuery 3.0, isNumeric is limited to
 			// strings and numbers (primitives or objects)
@@ -140,7 +126,7 @@ if ( jQueryVersionSince( "3.3.0" ) ) {
 				// ...but misinterprets leading-number strings, e.g. hex literals ("0x...")
 				// subtraction forces infinities to NaN
 				!isNaN( obj - parseFloat( obj ) );
-		}, "isNumeric",
+		},
 		"jQuery.isNumeric() is deprecated"
 	);
 
@@ -151,7 +137,7 @@ if ( jQueryVersionSince( "3.3.0" ) ) {
 		class2type[ "[object " + name + "]" ] = name.toLowerCase();
 	} );
 
-	migratePatchAndWarnFunc( jQuery, "type", function( obj ) {
+	migrateWarnFunc( jQuery, "type", function( obj ) {
 		if ( obj == null ) {
 			return obj + "";
 		}
@@ -160,19 +146,19 @@ if ( jQueryVersionSince( "3.3.0" ) ) {
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ Object.prototype.toString.call( obj ) ] || "object" :
 			typeof obj;
-	}, "type",
+	},
 	"jQuery.type is deprecated" );
 
-	migratePatchAndWarnFunc( jQuery, "isFunction",
+	migrateWarnFunc( jQuery, "isFunction",
 		function( obj ) {
 			return typeof obj === "function";
-		}, "isFunction",
+		},
 		"jQuery.isFunction() is deprecated" );
 
-	migratePatchAndWarnFunc( jQuery, "isWindow",
+	migrateWarnFunc( jQuery, "isWindow",
 		function( obj ) {
 			return obj != null && obj === obj.window;
-		}, "isWindow",
+		},
 		"jQuery.isWindow() is deprecated"
 	);
 }

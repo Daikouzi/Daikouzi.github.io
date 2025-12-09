@@ -59,15 +59,14 @@ export default class HSScrollspy {
   }
 
   smoothScroll(e) {
-    const observableSection = this.scrollSpyInstance._observableSections.get(e.target.hash) 
-
-    const offset = this.settings.resetOffset
+    const offsetIndex = this.scrollSpyInstance._targets.findIndex(t => t === e.target.hash),
+      offset = this.settings.resetOffset
       && window.innerWidth < this.settings.resolutionsList[this.settings.resetOffset]
-      ? 0 
-      : this.scrollSpyInstance._config.offset
+        ? 0
+        : this.scrollSpyInstance._config.offset
 
     window.scroll({
-      top: (observableSection.offsetTop - offset) - this.settings.scrollOffset,
+      top: (this.scrollSpyInstance._offsets[offsetIndex] - offset) - this.settings.scrollOffset,
       left: 0,
       behavior: 'smooth'
     })
