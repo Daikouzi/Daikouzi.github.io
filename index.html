@@ -8,7 +8,7 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
 
-  <title>Promiseon VN+</title>
+  <title>Promiseon Korean Menu</title>
 
   <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
@@ -17,7 +17,7 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-
+  <meta name="robots" content="noindex, nofollow">
   <!-----------------------------------------[ CSS Implementing Plugins ]----------------------------------------->
   <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
   <link href="assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
@@ -90,7 +90,8 @@
           <div class="row g-0">
             <div class="col-12 col-lg-5">
               <select class="form-select" name="sel_workplace_list" id="sel_workplace_list" style="width: 100%">
-                <option value="2" selected>X3</option>
+                <option value="18" selected>ALL</option>
+                <option value="2">X3</option>
                 <option value="3">X5</option>
                 <option value="8">HJ</option>
                 <option value="9">KDA</option>
@@ -156,35 +157,35 @@
                 data-buttons-class="primary" data-click-to-select="false" data-show-refresh="false"
                 data-auto-refresh="false" data-show-columns="false" data-show-fullscreen="false"
                 data-show-footer="false" data-toolbar="#get" data-method="GET" data-virtual-scroll="false"
-                data-query-params="queryParams_koreanMenu" data-page-size="24"
-                data-response-handler="responseHandler"
+                data-query-params="queryParams_koreanMenu" data-page-size="24" data-response-handler="responseHandler"
                 data-url="https://pvbi.ddns.net/api/korean-menu" data-show-custom-view="false"
                 data-custom-view="customViewFormatter" data-show-custom-view-button="false"
                 data-custom-view-default-view="true" data-page-list="[10, 25, 50, 100, 200, All]"
                 data-ajax-options='{"headers":{"X-API-KEY":"l0vLjDuIxAAUjHd7"}}'></table>
-                >
-                <thead>
-                  <tr>
-                    <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
-                      data-align="center">DATE</th>
-                    <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
-                      data-align="center">구분</th>
-                    <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
-                      data-align="center">PHAN LOAI</th>
-                    <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
-                      data-align="left">메뉴</th>
-                    <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
-                      data-align="left">THUC DON</th>
-                  </tr>
-                </thead>
+              >
+              <thead>
+                
+                <tr>
+                  <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
+                    data-align="center">DATE</th>
+                  <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
+                    data-align="center">구분</th>
+                  <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
+                    data-align="center">PHAN LOAI</th>
+                  <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
+                    data-align="left">메뉴</th>
+                  <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
+                    data-align="left">THUC DON</th>
+                </tr>
+              </thead>
               </table>
             </div>
           </div>
@@ -333,6 +334,53 @@
       // 현위치 버튼 초기화
       initializeGeolocationButton();
     });
+
+    // --------------------------------------------------------------------
+    // DataRange 설정 (초기 날짜 설정)
+    // --------------------------------------------------------------------
+
+    function alert_toast(contents_alert) {
+      // 새로운 토스트 요소 생성
+      const toastContainer = document.querySelector('.toast-container');
+      const newToast = document.createElement('div');
+
+      newToast.className = 'toast border border-primary';
+      newToast.role = 'alert';
+      newToast.ariaLive = 'assertive';
+      newToast.ariaAtomic = 'true';
+      newToast.setAttribute('data-bs-delay', '3000');
+
+      // 토스트 헤더 구성
+      const toastHeader = document.createElement('div');
+      toastHeader.className = 'toast-header';
+      toastHeader.innerHTML = `
+        <strong class="me-auto text-black">Message</strong>
+        <small>Just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    `;
+
+      // 토스트 바디 구성
+      const toastBody = document.createElement('div');
+      toastBody.className = 'toast-body';
+      toastBody.innerHTML = `<p class="text-black">${contents_alert}</p>`;
+
+      // 새로운 토스트에 헤더와 바디 추가
+      newToast.appendChild(toastHeader);
+      newToast.appendChild(toastBody);
+
+      // 토스트 컨테이너에 새로운 토스트 추가
+      toastContainer.appendChild(newToast);
+
+      // 새로 생성된 토스트를 Bootstrap의 Toast 객체로 초기화하고 보여줌
+      const toastInstance = new bootstrap.Toast(newToast);
+      toastInstance.show();
+
+      // 3초 후 토스트 자동 삭제 (필요 시 설정)
+      setTimeout(() => {
+        newToast.remove();
+      }, 2000);
+    }
+
 
     // --------------------------------------------------------------------
     // DataRange 설정 (초기 날짜 설정)
@@ -487,7 +535,8 @@
     function fetchNearestSite(latitude, longitude) {
       $.ajax({
         method: 'POST',
-        url: '/global/sites/nearest',
+        //url: '/api/sites/nearest',
+        url: 'https://pvbi.ddns.net/api/sites/nearest',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ latitude, longitude }),
         success: function (response) {
@@ -588,45 +637,45 @@
     function queryParams_koreanMenu(params) {
       params = params || {};
 
-      var search_site = $("#sel_workplace_list").val() || formState.searchSite;
-      var search_category = formState.searchCategory;
-      var search_date = $("#start_date").val() || formState.searchDate;
+      var searched_site = $("#sel_workplace_list").val() || formState.searchSite;
+      var searched_category = formState.searchCategory;
+      var searched_date = $("#start_date").val() || formState.searchDate;
 
-      params.user_data0 = search_site;
-      params.user_data1 = search_category;
-      params.user_data2 = search_date;
+      params.siteId = searched_site;
+      params.categoryId = searched_category;
+      params.date = searched_date;
 
       return params;
     }
 
     // --------------------------------------------------------------------
-// rowStyle (행 스타일 없으면 빈 객체 반환)
-// --------------------------------------------------------------------
-function rowStyle(row, index) {
-  return {};
-}
+    // rowStyle (행 스타일 없으면 빈 객체 반환)
+    // --------------------------------------------------------------------
+    function rowStyle(row, index) {
+      return {};
+    }
 
-// --------------------------------------------------------------------
-// 서버 응답을 bootstrap-table 형식으로 변환
-// --------------------------------------------------------------------
-function responseHandler(res) {
-  console.log('원본 응답:', res);
+    // --------------------------------------------------------------------
+    // 서버 응답을 bootstrap-table 형식으로 변환
+    // --------------------------------------------------------------------
+    function responseHandler(res) {
+      //console.log('원본 응답:', res);
 
-  if (Array.isArray(res)) {
-    return res;
-  }
+      if (Array.isArray(res)) {
+        return res;
+      }
 
-  if (res && Array.isArray(res.rows)) {
-    return res;
-  }
+      if (res && Array.isArray(res.rows)) {
+        return res;
+      }
 
-  if (res && Array.isArray(res.data)) {
-    return res.data;
-  }
+      if (res && Array.isArray(res.data)) {
+        return res.data;
+      }
 
-  console.warn('알 수 없는 응답 구조, 빈 데이터로 처리:', res);
-  return [];
-}
+      //console.warn('알 수 없는 응답 구조, 빈 데이터로 처리:', res);
+      return [];
+    }
 
 
     // --------------------------------------------------------------------
