@@ -88,13 +88,18 @@
             <div class="col-12 col-lg-5">
               <select class="form-select" name="sel_workplace_list" id="sel_workplace_list" style="width: 100%">
                 <option value="18" selected>ALL</option>
-                <option value="2">X3</option>
-                <option value="3">X5</option>
-                <option value="8">HJ</option>
+                <option value="2">Seojin System</option>
+                <option value="3">Texon</option>
+                <option value="19">Seojin BG6 NH</option>
+                <option value="26">Seojin BG7 TT</option>
+                <option value="8">Ho Jeong TS</option>
                 <option value="9">KDA</option>
-                <option value="10"></option>
-                <option value="11">CTW</option>
-                <option value="12">HS</option>
+                <option value="11">Chitwing</option>
+                <option value="25">H&S Tech</option>
+                <option value="21">MegaElec</option>
+                <option value="24">Sena Tech</option>
+                <option value="25">H&C Vina</option>
+                <option value="27">ETS Vina</option>
               </select>
             </div>
             <div class="col-12 col-lg-7">
@@ -159,29 +164,29 @@
                 data-custom-view="customViewFormatter" data-show-custom-view-button="false"
                 data-custom-view-default-view="true" data-page-list="[10, 25, 50, 100, 200, All]"
                 data-ajax-options='{"headers":{"X-API-KEY":"l0vLjDuIxAAUjHd7"}}'>
-              <thead>
-                
-                <tr>
-                  <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
-                    data-align="center"></th>
-                  <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
-                    data-align="center"></th>
-                  <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
-                    data-align="center"></th>
-                  <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
-                    data-align="center"></th>
-                  <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
-                    data-align="center">DATE</th>
-                  <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
-                    data-align="center">구분</th>
-                  <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
-                    data-align="center">PHAN LOAI</th>
-                  <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
-                    data-align="left">메뉴</th>
-                  <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
-                    data-align="left">THUC DON</th>
-                </tr>
-              </thead>
+                <thead>
+
+                  <tr>
+                    <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
+                      data-align="center"></th>
+                    <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
+                      data-align="center"></th>
+                    <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
+                      data-align="center"></th>
+                    <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
+                      data-align="center"></th>
+                    <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
+                      data-align="center">DATE</th>
+                    <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
+                      data-align="center">구분</th>
+                    <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
+                      data-align="center">PHAN LOAI</th>
+                    <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
+                      data-align="left">메뉴</th>
+                    <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
+                      data-align="left">THUC DON</th>
+                  </tr>
+                </thead>
               </table>
             </div>
           </div>
@@ -303,16 +308,6 @@
     // 초기화
     // --------------------------------------------------------------------
     $(document).ready(function () {
-
-      // 사업장 목록 로드
-      if (typeof populateSelect === 'function') {
-        populateSelect('/global/sites/search/init-data', 'sel_workplace_list', 'id', 'text');
-        populateSelect('/global/korean_menu/categories', 'sel_category_list', 'amc_seq', 'category_name_k');
-      }
-
-      // 기본 선택
-      $('#sel_workplace_list').val($('#sel_workplace_list option:eq(0)').val()).trigger('change');
-      $('#sel_category_list').val && $('#sel_category_list').val($('#sel_category_list option:eq(0)').val()).trigger('change');
 
       // 날짜 피커
       $('#start_date').datepicker({
@@ -582,12 +577,8 @@
     // --------------------------------------------------------------------
     // 검색/날짜/사업장 변경 이벤트
     // --------------------------------------------------------------------
-    $('#sel_workplace_list').on('select2:select', function () {
-      queryParams_koreanMenu({});
-      $('#tb_menu_korean').bootstrapTable('refresh');
-    });
 
-    $('#sel_category_list').on && $('#sel_category_list').on('select2:select', function () {
+    $('#sel_workplace_list').on('change', function () {
       queryParams_koreanMenu({});
       $('#tb_menu_korean').bootstrapTable('refresh');
     });
