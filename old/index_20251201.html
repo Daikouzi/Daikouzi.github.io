@@ -10,17 +10,26 @@
 
   <title>Promiseon Korean Menu</title>
 
-  <link rel="shortcut icon" href="assets/favicon/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
-
+  <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/assets/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="noindex, nofollow">
   <!-----------------------------------------[ CSS Implementing Plugins ]----------------------------------------->
   <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link href="assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+  <link href="assets/vendor/select2/dist/css/select2.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
   <link href="assets/vendor/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" />
+  <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet" />
+
   <!-----------------------------------------[ CSS Front Template ]----------------------------------------->
+  <link href="assets/css/theme.min.css" data-hs-appearance="default" as="style">
+  <link href="assets/css/theme-dark.min.css" data-hs-appearance="dark" as="style">
+
   <style>
     @media (max-width: 767.98px) {
       .fixed-table-toolbar .columns {
@@ -38,6 +47,9 @@
       opacity: 1;
     }
   </style>
+
+  <script src="assets/vendor/js/theme-choi.js"></script>
+  <link rel="stylesheet" href="assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.css">
 </head>
 
 <body>
@@ -69,11 +81,28 @@
         </div>
       </div>
 
-      <div class="row mb-3 d-flex align-items-center justify-content-between">
-        <!-- 날짜 + 검색 (site select 제거 후 전체 폭 사용) -->
-        <div class="col col-12 col-lg-2">
+      <div class="row mb-1 d-flex align-items-center justify-content-between">
+        <!-- 사이트 + 날짜 + 검색 -->
+        <div class="col col-12 col-lg-3">
           <div class="row g-0">
-            <div class="col-12">
+            <div class="col-12 col-lg-5">
+              <select class="form-select" name="sel_workplace_list" id="sel_workplace_list" style="width: 100%">
+                <option value="18" selected>ALL</option>
+                <option value="2">Seojin System</option>
+                <option value="3">Texon</option>
+                <option value="19">Seojin BG6 NH</option>
+                <option value="26">Seojin BG7 TT</option>
+                <option value="8">Ho Jeong TS</option>
+                <option value="9">KDA</option>
+                <option value="11">Chitwing</option>
+                <option value="25">H&S Tech</option>
+                <option value="21">MegaElec</option>
+                <option value="24">Sena Tech</option>
+                <option value="25">H&C Vina</option>
+                <option value="27">ETS Vina</option>
+              </select>
+            </div>
+            <div class="col-12 col-lg-7">
               <div class="input-group">
                 <input type="text" class="form-control" id="start_date" autocomplete="off">
                 <button type="button" class="btn btn-secondary d-none d-sm-block" id="bt_date_subtract">
@@ -91,7 +120,7 @@
         </div>
 
         <!-- 카테고리 버튼 -->
-        <div class="col col-12 col-lg-2 text-start">
+        <div class="col col-12 col-lg-3 text-start">
           <div class="row">
             <div class="btn-group" role="group" aria-label="메뉴 카테고리">
               <button type="button" class="btn btn-primary js-category" data-id="bt_all" data-category="0">전체</button>
@@ -107,14 +136,13 @@
         </div>
 
         <!-- 현위치 버튼 -->
-        <div class="col col-sm-12 col-lg-8 text-start">
+        <div class="col col-sm-12 col-lg-6 text-start">
           <div class="col-12 col-lg-2">
-            <!-- <button class="btn btn-outline-primary w-100" id="bt_use_location" type="button"
+            <button class="btn btn-outline-primary w-100" id="bt_use_location" type="button"
               data-loading-text="위치 확인 중...">
               <i class="bi bi-geo-alt"></i>
               <span class="ms-1">현위치</span>
             </button>
-          -->
           </div>
         </div>
       </div>
@@ -137,6 +165,7 @@
                 data-custom-view-default-view="true" data-page-list="[10, 25, 50, 100, 200, All]"
                 data-ajax-options='{"headers":{"X-API-KEY":"l0vLjDuIxAAUjHd7"}}'>
                 <thead>
+
                   <tr>
                     <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
                       data-align="center"></th>
@@ -198,7 +227,7 @@
                   </ul>
 
                   <hr class="p-0 m-1">
-                  <!-- 
+
                   <ul class="list-unstyled list-pX-1">
                     <li>%NAME_V_1%</li>
                     <li>%NAME_V_2%</li>
@@ -211,7 +240,7 @@
                     <li>%NAME_V_9%</li>
                     <li>%NAME_V_10%</li>
                   </ul>
-                  -->
+
                   <ul class="list-inline mb-0">
                     <li class="list-inline-item d-inline-flex align-items-center">
                       <!-- indicator 자리 -->
@@ -229,11 +258,24 @@
 
   <!-----------------------------------------[ Script ]----------------------------------------->
   <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="assets/vendor/datatables/datatables.min.js"></script>
   <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/hs-mega-menu/dist/hs-mega-menu.min.js"></script>
+  <script src="assets/vendor/js/style-switcher.js"></script>
+  <script src="assets/vendor/js/theme.min.js"></script>
+  <script src="assets/vendor/js/style-init.js"></script>
+  <script src="assets/vendor/masonry-layout/dist/masonry.pkgd.min.js"></script>
   <script src="assets/vendor/moment/min/moment.min.js"></script>
+  <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+  <script src="assets/vendor/select2/dist/js/select2.min.js"></script>
   <script src="assets/vendor/bootstrap-table/dist/bootstrap-table.min.js"></script>
+  <script src="assets/vendor/bootstrap-table/dist/extensions/export/tableExport.min.js"></script>
+  <script src="assets/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  <script src="assets/vendor/bootstrap-table/dist/extensions/i18n-enhance/bootstrap-table-i18n-enhance.min.js"></script>
+  <script src="assets/vendor/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
   <script src="assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="assets/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+
   <script src="assets/vendor/bootstrap-table/dist/extensions/custom-view/bootstrap-table-custom-view.min.js"></script>
 
   <script>
@@ -243,7 +285,7 @@
     const formState = {
       lang: 'kr',
       searchDate: moment().format('YYYY-MM-DD'),
-      searchSite: '0',
+      searchSite: '18',
       searchCategory: '0'
     };
 
@@ -261,12 +303,6 @@
       timeout: 10000,
       maximumAge: 5 * 60 * 1000
     };
-
-    // URL 파라미터 조회 함수
-    function getQueryParam(key) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(key);
-    }
 
     // --------------------------------------------------------------------
     // 초기화
@@ -512,7 +548,6 @@
       });
     }
 
-    // select 없이 formState만 갱신해서 사용
     function applyNearestSiteSelection(siteData, message) {
       if (!siteData || !siteData.id) {
         alert_toast && alert_toast('선택할 사업장 정보가 없습니다.');
@@ -521,6 +556,14 @@
 
       const siteId = String(siteData.id);
       const siteLabel = siteData.text || siteData.call_name || siteData.name || siteId;
+      const $select = $('#sel_workplace_list');
+
+      if ($select.find('option[value="' + siteId + '"]').length === 0) {
+        const newOption = new Option(siteLabel, siteId, true, true);
+        $select.append(newOption);
+      }
+
+      $select.val(siteId).trigger('change');
 
       formState.searchSite = siteId;
 
@@ -532,8 +575,13 @@
     }
 
     // --------------------------------------------------------------------
-    // 검색/날짜 변경 이벤트 (site select 관련 이벤트 제거됨)
+    // 검색/날짜/사업장 변경 이벤트
     // --------------------------------------------------------------------
+
+    $('#sel_workplace_list').on('change', function () {
+      queryParams_koreanMenu({});
+      $('#tb_menu_korean').bootstrapTable('refresh');
+    });
 
     $('#bt_date_subtract').on('click', function () {
       var currentDateStr = $('#start_date').val();
@@ -575,8 +623,7 @@
     function queryParams_koreanMenu(params) {
       params = params || {};
 
-      // site는 URL 파라미터/현위치에서 formState.searchSite로만 관리
-      var searched_site = formState.searchSite;
+      var searched_site = $("#sel_workplace_list").val() || formState.searchSite;
       var searched_category = formState.searchCategory;
       var searched_date = $("#start_date").val() || formState.searchDate;
 
@@ -586,26 +633,6 @@
 
       return params;
     }
-
-    // --------------------------------------------------------------------
-    // 메인 테이블 queryParams
-    // --------------------------------------------------------------------
-    $('#tb_menu_korean').on('load-success.bs.table', function (e, data) {
-      // data가 배열이거나 {rows: []} 형태일 수 있음
-      let rows = [];
-
-      if (Array.isArray(data)) {
-        rows = data;
-      } else if (data && Array.isArray(data.rows)) {
-        rows = data.rows;
-      } else if (data && Array.isArray(data.data)) {
-        rows = data.data;
-      }
-
-      if (rows.length === 0) {
-        alert_toast("검색한 내용이 없습니다.");
-      }
-    });
 
     // --------------------------------------------------------------------
     // rowStyle (행 스타일 없으면 빈 객체 반환)
@@ -690,27 +717,6 @@
 
       return '<div class="row mx-0">' + view + '</div>';
     }
-
-    // --------------------------------------------------------------------
-    // URL 파라미터 (?site=2&date=2025-01-01 등) 반영
-    // --------------------------------------------------------------------
-    $(function () {
-      const siteParam = getQueryParam('site');
-      const dateParam = getQueryParam('date');
-
-      if (siteParam) {
-        formState.searchSite = siteParam;
-      }
-
-      if (dateParam) {
-        formState.searchDate = dateParam;
-        $('#start_date').datepicker('update', dateParam);
-      } else {
-        formState.searchDate = $('#start_date').val() || moment().format('YYYY-MM-DD');
-      }
-
-      $('#tb_menu_korean').bootstrapTable('refresh');
-    });
   </script>
 </body>
 
