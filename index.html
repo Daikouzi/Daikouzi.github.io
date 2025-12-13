@@ -7,20 +7,25 @@
   <meta charset="utf-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
-
   <title>Promiseon Korean Menu</title>
-
   <link rel="shortcut icon" href="assets/favicon/favicon.ico" type="image/x-icon">
   <link rel="icon" href="assets/favicon/favicon.ico" type="image/x-icon">
 
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="noindex, nofollow">
   <!-----------------------------------------[ CSS Implementing Plugins ]----------------------------------------->
+  <link href="assets/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
   <link href="assets/vendor/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" rel="stylesheet" />
   <link href="assets/vendor/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
   <!-----------------------------------------[ CSS Front Template ]----------------------------------------->
+
   <style>
     @media (max-width: 767.98px) {
       .fixed-table-toolbar .columns {
@@ -36,11 +41,112 @@
 
     body {
       opacity: 1;
+      font-family: "Noto Sans KR", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 300;
+      font-style: normal;
     }
+
+
+    :root{
+  --bg: #F9FAFB;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --text: #111827;
+  --muted: #6B7280;
+  --primary: #2563EB;
+  --danger: #DC2626;
+}
+
+body { background: var(--bg); color: var(--text); }
+
+.header-sticky{
+  position: sticky; top: 0; z-index: 50;
+  background: white; border-bottom: 1px solid var(--border);
+}
+
+.toolbar{
+  display:flex; gap:12px; align-items:center; justify-content:space-between;
+  padding: 10px 16px;
+}
+
+.tabs{
+  display:flex; gap:8px; padding: 0 16px 10px 16px;
+}
+.tabs .tab{
+  padding: 8px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: white;
+  font-size: 14px;
+}
+.tabs .tab.active{
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #EFF6FF;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  overflow:hidden;
+}
+.card-header{
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display:flex; justify-content:space-between; gap:10px;
+}
+.card-title{ font-size:16px; font-weight:600; }
+.card-sub{ font-size:12px; color: var(--muted); margin-top:2px; }
+
+.badge{
+  font-size:12px; padding: 4px 8px; border-radius: 999px;
+  background:#F3F4F6; color:#374151;
+  height: fit-content;
+}
+.badge.meal{ background:#EFF6FF; color: var(--primary); }
+
+.card-body{ padding: 12px 14px; }
+.menu-main{
+  display:flex; align-items:flex-start; gap:10px;
+  margin-bottom: 10px;
+}
+.menu-main::before{
+  content:"";
+  width:4px; border-radius: 999px;
+  background: var(--danger);
+  display:block;
+  margin-top: 2px;
+}
+.menu-main .name{ color: var(--danger); font-weight:700; }
+
+.menu-list{ margin:0; padding-left: 16px; }
+.menu-list li{ font-size:14px; line-height:1.55; margin: 2px 0; }
+
+.card-footer{
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  font-size:12px; color: var(--muted);
+  display:flex; justify-content:space-between; gap:10px;
+}
   </style>
 </head>
 
 <body>
+  <!-----------------------------------------[ HEADER ]----------------------------------------->
+  <header id="header" class="navbar navbar-expand-lg navbar-bordered bg-white m-2">
+    <div class="container-fluid">
+      <img class="" src="assets/svg/logos/logo.png" alt="Logo" style="height: 40px;">
+    </div>
+  </header>
+  <hr class="m-1">
   <!-----------------------------------------[ Toast Start ]----------------------------------------->
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
     <div id="liveToast" class="toast border border-primary" role="alert" aria-live="assertive" aria-atomic="true"
@@ -55,12 +161,11 @@
       </div>
     </div>
   </div>
-
   <!-----------------------------------------[ Main ]----------------------------------------->
   <main id="content" role="main" class="main">
     <div class="content container-fluid">
       <div class="row align-items-center">
-        <div class="col mb-4">
+        <div class="col mb-0">
           <nav aria-label="breadcrumb">
             <div>
               <!-- breadcrumb 자리 -->
@@ -69,7 +174,7 @@
         </div>
       </div>
 
-      <div class="row mb-3 d-flex align-items-center justify-content-between">
+      <div class="row mb-0 d-flex align-items-center justify-content-between">
         <!-- 날짜 + 검색 (site select 제거 후 전체 폭 사용) -->
         <div class="col col-12 col-lg-2">
           <div class="row g-0">
@@ -91,7 +196,7 @@
         </div>
 
         <!-- 카테고리 버튼 -->
-        <div class="col col-12 col-lg-2 text-start">
+        <div class="col col-12 col-lg-3 text-start">
           <div class="row">
             <div class="btn-group" role="group" aria-label="메뉴 카테고리">
               <button type="button" class="btn btn-primary js-category" data-id="bt_all" data-category="0">전체</button>
@@ -107,7 +212,7 @@
         </div>
 
         <!-- 현위치 버튼 -->
-        <div class="col col-sm-12 col-lg-8 text-start">
+        <div class="col col-sm-12 col-lg-7 text-start">
           <div class="col-12 col-lg-2">
             <!-- <button class="btn btn-outline-primary w-100" id="bt_use_location" type="button"
               data-loading-text="위치 확인 중...">
@@ -121,47 +226,41 @@
 
       <!-- 테이블 -->
       <div class="row mb-1 ps-0">
-        <div class="col col-12">
-          <div class="row g-3">
-            <div class="card">
-              <table class="table table-sm table-striped table-responsive text-wrap small" id="tb_menu_korean"
-                data-buttons-prefix="btn-sm btn" data-show-export="false" data-buttons-align="left"
-                data-search-align="left" data-toggle="table" data-sort-class="table-active" data-sortable="false"
-                data-search="false" data-pagination="false" data-select-item-name="selectItemName"
-                data-buttons-class="primary" data-click-to-select="false" data-show-refresh="false"
-                data-auto-refresh="false" data-show-columns="false" data-show-fullscreen="false"
-                data-show-footer="false" data-toolbar="#get" data-method="GET" data-virtual-scroll="false"
-                data-query-params="queryParams_koreanMenu" data-page-size="24" data-response-handler="responseHandler"
-                data-url="https://pvbi.ddns.net/api/korean-menu" data-show-custom-view="false"
-                data-custom-view="customViewFormatter" data-show-custom-view-button="false"
-                data-custom-view-default-view="true" data-page-list="[10, 25, 50, 100, 200, All]"
-                data-ajax-options='{"headers":{"X-API-KEY":"l0vLjDuIxAAUjHd7"}}'>
-                <thead>
-                  <tr>
-                    <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
-                      data-align="center"></th>
-                    <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
-                      data-align="center">DATE</th>
-                    <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
-                      data-align="center">구분</th>
-                    <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
-                      data-align="center">PHAN LOAI</th>
-                    <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
-                      data-align="left">메뉴</th>
-                    <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
-                      data-align="left">THUC DON</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
-          </div>
-        </div>
+            <table class="table table-sm table-striped table-responsive text-wrap small" id="tb_menu_korean"
+              data-buttons-prefix="btn-sm btn" data-show-export="false" data-buttons-align="left"
+              data-search-align="left" data-toggle="table" data-sort-class="table-active" data-sortable="false"
+              data-search="false" data-pagination="false" data-select-item-name="selectItemName"
+              data-buttons-class="primary" data-click-to-select="false" data-show-refresh="false"
+              data-auto-refresh="false" data-show-columns="false" data-show-fullscreen="false" data-show-footer="false"
+              data-toolbar="#get" data-method="GET" data-virtual-scroll="false"
+              data-query-params="queryParams_koreanMenu" data-page-size="24" data-response-handler="responseHandler"
+              data-url="https://pvbi.ddns.net/api/korean-menu" data-show-custom-view="false"
+              data-custom-view="customViewFormatter" data-show-custom-view-button="false"
+              data-custom-view-default-view="true" data-page-list="[10, 25, 50, 100, 200, All]"
+              data-ajax-options='{"headers":{"X-API-KEY":"l0vLjDuIxAAUjHd7"}}'>
+              <thead>
+                <tr>
+                  <th data-sortable="true" data-field="amk_seq" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="workplace" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="category" data-visible="false" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="workplace_name" data-visible="true" data-switchable="true"
+                    data-align="center"></th>
+                  <th data-sortable="true" data-field="apply_date" data-visible="true" data-switchable="true"
+                    data-align="center">DATE</th>
+                  <th data-sortable="true" data-field="category_name_k" data-visible="true" data-switchable="true"
+                    data-align="center">구분</th>
+                  <th data-sortable="true" data-field="category_name_v" data-visible="true" data-switchable="true"
+                    data-align="center">PHAN LOAI</th>
+                  <th data-sortable="true" data-field="menu_name_k" data-visible="true" data-switchable="true"
+                    data-align="left">메뉴</th>
+                  <th data-sortable="true" data-field="menu_name_v" data-visible="true" data-switchable="true"
+                    data-align="left">THUC DON</th>
+                </tr>
+              </thead>
+            </table>
       </div>
 
       <!-- 카드 출력 컨테이너 -->
@@ -170,34 +269,54 @@
       <!-- 카드 템플릿 -->
       <template id="profileTemplate">
         <div class="col-12 col-xl-2 col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3 g-2">
-          <div class="card card-transition h-100" data-rowInfo="%ROWINFO%">
+          <div class="card card-transition h-100 " data-rowInfo="%ROWINFO%">
             <div class="row g-0">
               <div class="col-12">
                 <!-- <img class="card-img-top" src="%IMG%" alt="Card image cap" style="height: 100px; object-fit: cover;"> -->
-                <div class="card-head p-3 pb-0">
-                  <span class="card-subtitle">%WORKPLACE% / %APPLYDATE%</span>
-                  <div class="card-title display-6 text-dark">%CATEGORY_K%</div>
+                <div class="card-header p-3 pb-0">
+                  <span class="card-subtitle text-gray"></span>
+                  <small class="text-muted">%WORKPLACE% / %APPLYDATE%</small>
+                  <div class="card-title display-6"></div>
+                  <span class="badge bg-primary rounded-pill text-white">%CATEGORY_K%</span>
                 </div>
-                <hr class="p-0 m-1">
                 <div class="card-body p-3">
-                  <ul class="list-inline list-separator list-separator-light">
-                    <li class="list-inline-item">
-                      <span class="text-danger">
-                        <a class="list-separator-link text-danger" href="#"><b>%NAME_K_3%</b></a>
-                      </span>
+                  <ul class="list-unstyled list-pX-1">
+                    <li>
+                      <p class="h6 mb-1 text-danger">
+                        <b>%NAME_K_3%</b>
+                      </p>
                     </li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_1%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_2%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_4%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_5%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_6%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_7%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_8%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_9%</a></li>
-                    <li><a class="list-separator-link text-black" href="#">%NAME_K_10%</a></li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_1%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_2%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_4%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_5%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_6%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_7%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_8%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_9%</p>
+                    </li>
+                    <li>
+                      <p class="h6 mb-1">%NAME_K_10%</p>
+                    </li>
                   </ul>
 
-                  <hr class="p-0 m-1">
+
+
                   <!-- 
                   <ul class="list-unstyled list-pX-1">
                     <li>%NAME_V_1%</li>
@@ -212,13 +331,15 @@
                     <li>%NAME_V_10%</li>
                   </ul>
                   -->
-                  <ul class="list-inline mb-0">
-                    <li class="list-inline-item d-inline-flex align-items-center">
-                      <!-- indicator 자리 -->
-                    </li>
-                  </ul>
-                  <p class="mb-0 text-truncated"></p>
+
                 </div>
+                  <span class="card-pinned-top-start">
+                    <span class="badge bg-primary rounded-pill"></span>
+                  </span>
+                  <small class="text-muted p-3"></small>
+
+
+
               </div>
             </div>
           </div>
@@ -231,6 +352,7 @@
   <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/moment/min/moment.min.js"></script>
+  <script src="assets/vendor/sweetalert2/sweetalert2.all.min.js"></script>
   <script src="assets/vendor/bootstrap-table/dist/bootstrap-table.min.js"></script>
   <script src="assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="assets/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -243,7 +365,7 @@
     const formState = {
       lang: 'kr',
       searchDate: moment().format('YYYY-MM-DD'),
-      searchSite: '0',
+      searchSite: '18',
       searchCategory: '0'
     };
 
@@ -293,6 +415,10 @@
     // DataRange 설정 (초기 날짜 설정)
     // --------------------------------------------------------------------
 
+    // --------------------------------------------------------------------
+    // Toast 설정
+    // --------------------------------------------------------------------
+
     function alert_toast(contents_alert) {
       // 새로운 토스트 요소 생성
       const toastContainer = document.querySelector('.toast-container');
@@ -335,6 +461,19 @@
       }, 2000);
     }
 
+    // --------------------------------------------------------------------
+    // Sweet Alert 설정 
+    // --------------------------------------------------------------------
+
+    function alert_swal(title, text, icon) {
+      Swal.fire({
+        title: title || '알림',
+        text: text || '',
+        icon: icon || 'error',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
 
     // --------------------------------------------------------------------
     // DataRange 설정 (초기 날짜 설정)
@@ -423,7 +562,8 @@
       if ($button.length === 0) return;
 
       if (!navigator.geolocation) {
-        alert_toast && alert_toast('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
+        //alert_toast && alert_toast('이 브라우저에서는 위치 정보를 사용할 수 없습니다.');
+        alert_swal('오류', '이 브라우저에서는 위치 정보를 사용할 수 없습니다.', 'error');
         return;
       }
 
@@ -460,7 +600,8 @@
       const coords = position && position.coords;
       if (!coords) {
         setGeoButtonLoading(false);
-        alert_toast && alert_toast('위치 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+        //alert_toast && alert_toast('위치 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+        alert_swal('오류', '위치 정보를 불러오지 못했습니다. 다시 시도해주세요.', 'error');
         return;
       }
       fetchNearestSite(coords.latitude, coords.longitude);
@@ -468,7 +609,7 @@
 
     function handleGeolocationError(error) {
       setGeoButtonLoading(false);
-      alert_toast && alert_toast(describeGeolocationError(error));
+      //alert_toast && alert_toast(describeGeolocationError(error));
     }
 
     function describeGeolocationError(error) {
@@ -489,8 +630,7 @@
     function fetchNearestSite(latitude, longitude) {
       $.ajax({
         method: 'POST',
-        //url: '/api/sites/nearest',
-        url: 'https://pvbi.ddns.net/api/sites/nearest',
+        url: '#',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ latitude, longitude }),
         success: function (response) {
@@ -498,7 +638,7 @@
 
           if (!response || response.success === false || !response.data) {
             const message = (response && response.message) || '가까운 사업장을 찾지 못했습니다.';
-            alert_toast && alert_toast(message);
+            //alert_toast && alert_toast(message);
             return;
           }
 
@@ -507,7 +647,7 @@
         error: function (xhr) {
           setGeoButtonLoading(false);
           const message = (xhr && xhr.responseJSON && xhr.responseJSON.message) || '사업장 정보를 불러오는데 실패했습니다.';
-          alert_toast && alert_toast(message);
+          //alert_toast && alert_toast(message);
         }
       });
     }
@@ -515,7 +655,7 @@
     // select 없이 formState만 갱신해서 사용
     function applyNearestSiteSelection(siteData, message) {
       if (!siteData || !siteData.id) {
-        alert_toast && alert_toast('선택할 사업장 정보가 없습니다.');
+        //alert_toast && alert_toast('선택할 사업장 정보가 없습니다.');
         return;
       }
 
@@ -528,7 +668,7 @@
       $('#tb_menu_korean').bootstrapTable('refresh');
 
       const toastMessage = message || siteLabel + ' 사업장으로 이동했습니다.';
-      alert_toast && alert_toast(toastMessage);
+      //alert_toast && alert_toast(toastMessage);
     }
 
     // --------------------------------------------------------------------
@@ -603,7 +743,8 @@
       }
 
       if (rows.length === 0) {
-        alert_toast("검색한 내용이 없습니다.");
+        //alert_toast("검색한 내용이 없습니다.");
+        alert_swal('검색한 내용이 없습니다.', '  ', 'error');
       }
     });
 
